@@ -1,0 +1,25 @@
+{
+  "name": "iceproductionz/stream-qif",
+  "description": "Quicken Interchange Format (QIF) is an open specification for reading and writing financial data to media",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Musarurwa Chanakira",
+      "email": "jethot@hotmail.co.uk"
+    }
+  ],
+  "require": {
+    "iceproductionz/stream": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Iceproductionz\\StreamQif\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "IceproductionzTest\\Stream\\Qif\\": "tests/unit"
+    }
+  }
+}
