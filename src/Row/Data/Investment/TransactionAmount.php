@@ -2,7 +2,7 @@
 
 namespace Iceproductionz\StreamQif\Row\Data\Investment;
 
-class Account
+class TransactionAmount
 {
 
 }

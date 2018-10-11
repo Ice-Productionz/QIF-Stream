@@ -2,7 +2,7 @@
 
 namespace Iceproductionz\StreamQif\Row\Data\Investment;
 
-class Cleared
+class ClearedStatus
 {
 
 }
