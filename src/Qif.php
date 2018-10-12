@@ -4,6 +4,7 @@ namespace Iceproductionz\StreamQif;
 
 use Iceproductionz\Stream\StreamInterface;
 use Iceproductionz\StreamQif\Adapter\AdapterInterface;
+use Iceproductionz\StreamQif\Exception\InvalidType;
 use Iceproductionz\StreamQif\Row\Row;
 
 class Qif implements StreamInterface
@@ -66,6 +67,7 @@ class Qif implements StreamInterface
         foreach ($data->all() as $item) {
             fwrite($this->handle, $this->adapter->toStream($item));
         }
+        fwrite($this->handle, '^' . "\r\n");
 
         return true;
     }
