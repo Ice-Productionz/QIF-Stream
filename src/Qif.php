@@ -5,6 +5,7 @@ namespace Iceproductionz\StreamQif;
 use Iceproductionz\Stream\StreamInterface;
 use Iceproductionz\StreamQif\Adapter\AdapterInterface;
 use Iceproductionz\StreamQif\Exception\InvalidType;
+use Iceproductionz\StreamQif\Exception\NotSupported;
 use Iceproductionz\StreamQif\Row\Row;
 
 class Qif implements StreamInterface
@@ -28,7 +29,7 @@ class Qif implements StreamInterface
      */
     public function isReadable(): bool
     {
-        // TODO: Implement isReadable() method.
+        throw new NotSupported('This method is currently not supported');
     }
 
     /**
@@ -79,7 +80,7 @@ class Qif implements StreamInterface
      */
     public function isWritable(): bool
     {
-        // TODO: Implement isWritable() method.
+        throw new NotSupported('This method is currently not supported');
     }
 
     /**
@@ -94,7 +95,7 @@ class Qif implements StreamInterface
      */
     public function rewind(): void
     {
-        // TODO: Implement rewind() method.
+        rewind($this->handle);
     }
 
     /**
@@ -105,7 +106,7 @@ class Qif implements StreamInterface
      */
     public function tell(): int
     {
-        // TODO: Implement tell() method.
+        return ftell($this->handle);
     }
 
     /**
@@ -115,7 +116,7 @@ class Qif implements StreamInterface
      */
     public function eof(): bool
     {
-        // TODO: Implement eof() method.
+        return feof($this->handle);
     }
 
     /**
@@ -125,5 +126,6 @@ class Qif implements StreamInterface
      */
     public function close(): void
     {
-        // TODO: Implement close() method.
-}}
+        fclose($this->handle);
+    }
+}
