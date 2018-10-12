@@ -31,4 +31,12 @@ class Row
     {
         $this->rows[] = $item;
     }
+
+    /**
+     * @return DataInterface[]
+     */
+    public function all(): array
+    {
+        return $this->rows;
+    }
 }

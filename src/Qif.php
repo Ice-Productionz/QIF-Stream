@@ -53,13 +53,21 @@ class Qif implements StreamInterface
     /**
      * Write data to the stream.
      *
-     * @param $data
+     * @param Row $data
      *
      * @return bool Returns the number of bytes written to the stream.
      */
     public function write($data): bool
     {
-        // TODO: Implement write() method.
+        if (!$data instanceof Row) {
+            throw new InvalidType('$data is not an instance of ' . Row::class);
+        }
+
+        foreach ($data->all() as $item) {
+            fwrite($this->handle, $this->adapter->toStream($item));
+        }
+
+        return true;
     }
 
     /**

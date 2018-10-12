@@ -6,7 +6,7 @@ use Iceproductionz\StreamQif\Exception\NotSupported;
 use Iceproductionz\StreamQif\Row\Data\DataInterface;
 use Iceproductionz\StreamQif\Row\Data\Investment\AccountForTransfer;
 use Iceproductionz\StreamQif\Row\Data\Investment\Action;
-use Iceproductionz\StreamQif\Row\Data\Investment\AmountTrasnferred;
+use Iceproductionz\StreamQif\Row\Data\Investment\AmountTransferred;
 use Iceproductionz\StreamQif\Row\Data\Investment\ClearedStatus;
 use Iceproductionz\StreamQif\Row\Data\Investment\Commission;
 use Iceproductionz\StreamQif\Row\Data\Investment\Date;
@@ -31,9 +31,17 @@ class Investment implements AdapterInterface
         'Q' => Quantity::class,
         'T' => TransactionAmount::class,
         'Y' => Security::class,
-        '$' => AmountTrasnferred::class,
+        '$' => AmountTransferred::class,
     ];
 
+    /**
+     * Convert a line to a data object
+     *
+     * @param string $line
+     *
+     * @return DataInterface
+     * @throws NotSupported
+     */
     public function fromStream(string $line): DataInterface
     {
         $initialCharacters = substr($line, 0, 2);
@@ -53,8 +61,21 @@ class Investment implements AdapterInterface
         throw new NotSupported('Unable to convert line to a data object');
     }
 
-    public function toStream(DataInterface $line): string
+    /**
+     * Prep data object for streaming
+     *
+     * @param DataInterface $data
+     *
+     * @return string
+     */
+    public function toStream(DataInterface $data): string
     {
+        foreach (static::VALUES as $key => $value) {
+            if ($data instanceof $value) {
+                return $key . $data->getRaw() ."\r\n";
+            }
+        }
 
+        throw new NotSupported('Unable to convert data object to stream value');
     }
 }

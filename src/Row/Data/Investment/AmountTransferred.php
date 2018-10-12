@@ -2,7 +2,9 @@
 
 namespace Iceproductionz\StreamQif\Row\Data\Investment;
 
-class Memo
+use Iceproductionz\StreamQif\Row\Data\DataInterface;
+
+class AmountTransferred implements DataInterface
 {
     /**
      * @var string
@@ -10,7 +12,7 @@ class Memo
     private $value;
 
     /**
-     * Memo constructor.
+     * Amount Trasnferred constructor.
      *
      * @param string $value
      */
