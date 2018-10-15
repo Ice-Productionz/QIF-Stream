@@ -10,6 +10,7 @@
     }
   ],
   "require": {
+    "roave/security-advisories": "dev-master",
     "iceproductionz/stream": "^2.0",
     "phpunit/phpunit": "^7.4"
   },
@@ -20,7 +21,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "IceproductionzTest\\Stream\\Qif\\": "tests/unit"
+      "IceproductionzTest\\Unit\\Stream\\Qif\\": "tests/unit",
+      "IceproductionzTest\\Integration\\Stream\\Qif\\": "tests/integration"
     }
   }
 }

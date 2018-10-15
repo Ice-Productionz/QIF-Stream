@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace IceproductionzTest\Stream\Qif;
+namespace IceproductionzTest\Integration\Stream\Qif;
 
-use Iceproductionz\StreamQif\Adapter\AdapterInterface;
 use Iceproductionz\StreamQif\Adapter\Investment;
 use Iceproductionz\StreamQif\Qif;
 use Iceproductionz\StreamQif\Row\Data\Investment\AccountForTransfer;
