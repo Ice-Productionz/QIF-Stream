@@ -2,7 +2,9 @@
 
 namespace Iceproductionz\StreamQif\Row\Data\Investment;
 
-class Memo
+use Iceproductionz\StreamQif\Row\Data\DataInterface;
+
+class Memo implements DataInterface
 {
     /**
      * @var string

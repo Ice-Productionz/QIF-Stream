@@ -2,7 +2,9 @@
 
 namespace Iceproductionz\StreamQif\Row\Data\Investment;
 
-class TransactionAmount
+use Iceproductionz\StreamQif\Row\Data\DataInterface;
+
+class TransactionAmount implements DataInterface
 {
     /**
      * @var string

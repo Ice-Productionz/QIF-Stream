@@ -46,19 +46,19 @@ class Investment implements AdapterInterface
     {
         $initialCharacters = substr($line, 0, 2);
         if (isset(static::VALUES[$initialCharacters])) {
-            $arg0 = substr($line, 2);
+            $arg0 = substr($line, 2, -1);
             $className = static::VALUES[$initialCharacters];
             return new $className($arg0);
         }
 
         $initialCharacter = $line[0];
         if (isset(static::VALUES[$initialCharacter])) {
-            $arg0 = substr($line, 1);
+            $arg0 = substr($line, 1, -1);
             $className = static::VALUES[$initialCharacter];
             return new $className($arg0);
         }
 
-        throw new NotSupported('Unable to convert line to a data object');
+        throw new NotSupported('Unable to convert line to a data object: ' . $line);
     }
 
     /**

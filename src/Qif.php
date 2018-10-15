@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Iceproductionz\StreamQif;
 
@@ -42,11 +42,14 @@ class Qif implements StreamInterface
      * @return mixed Returns the data read from the stream
      * @throws \RuntimeException if an error occurs.
      */
-    public function read(int $length = 0): Row
+    public function read(int $length = 8192): Row
     {
         $row = new Row([]);
         while ($this->eof() === false) {
-            $line = fread($this->handle, $length);
+            $line = stream_get_line($this->handle, $length, "\n");
+            if (strpos($line, '^') === 0) {
+                return $row;
+            }
             $row->addItem($this->adapter->fromStream($line));
         }
         return $row;
