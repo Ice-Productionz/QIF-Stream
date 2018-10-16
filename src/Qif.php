@@ -26,9 +26,18 @@ class Qif implements StreamInterface
      */
     private $options;
 
+    /**
+     * Qif constructor.
+     *
+     * @param                  $handle
+     * @param AdapterInterface $adapter
+     * @param OptionInterface  $options
+     *
+     * @throws InvalidType
+     */
     public function __construct($handle, AdapterInterface $adapter, OptionInterface $options)
     {
-        if (\is_resource($handle)) {
+        if (!\is_resource($handle)) {
             throw new InvalidType('$handle is not a valid resource');
         }
 
@@ -62,7 +71,7 @@ class Qif implements StreamInterface
         $row = new Row([]);
         while ($this->eof() === false) {
             $line = stream_get_line($this->handle, $length, $this->options->getLineEnding());
-            if (strpos($line, '^') === 0) {
+            if (strpos($line, $this->options->getRowEnding()) === 0) {
                 return $row;
             }
             $row->addItem($this->adapter->fromStream($line));

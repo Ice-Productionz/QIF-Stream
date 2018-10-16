@@ -44,14 +44,14 @@ class Normal implements AdapterInterface
     {
         $initialCharacters = substr($line, 0, 2);
         if (isset(static::VALUES[$initialCharacters])) {
-            $arg0 = substr($line, 2, -1);
+            $arg0 = substr($line, 2);
             $className = static::VALUES[$initialCharacters];
             return new $className($arg0);
         }
 
         $initialCharacter = $line[0];
         if (isset(static::VALUES[$initialCharacter])) {
-            $arg0 = substr($line, 1, -1);
+            $arg0 = substr($line, 1);
             $className = static::VALUES[$initialCharacter];
             return new $className($arg0);
         }
