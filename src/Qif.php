@@ -6,20 +6,35 @@ use Iceproductionz\Stream\StreamInterface;
 use Iceproductionz\StreamQif\Adapter\AdapterInterface;
 use Iceproductionz\StreamQif\Exception\InvalidType;
 use Iceproductionz\StreamQif\Exception\NotSupported;
+use Iceproductionz\StreamQif\Option\OptionInterface;
 use Iceproductionz\StreamQif\Row\Row;
 
 class Qif implements StreamInterface
 {
+    /**
+     * @var resource
+     */
     private $handle;
+
     /**
      * @var AdapterInterface
      */
     private $adapter;
 
-    public function __construct($handle, AdapterInterface $adapter)
+    /**
+     * @var OptionInterface
+     */
+    private $options;
+
+    public function __construct($handle, AdapterInterface $adapter, OptionInterface $options)
     {
+        if (\is_resource($handle)) {
+            throw new InvalidType('$handle is not a valid resource');
+        }
+
         $this->handle = $handle;
         $this->adapter = $adapter;
+        $this->options = $options;
     }
 
     /**
@@ -46,7 +61,7 @@ class Qif implements StreamInterface
     {
         $row = new Row([]);
         while ($this->eof() === false) {
-            $line = stream_get_line($this->handle, $length, "\n");
+            $line = stream_get_line($this->handle, $length, $this->options->getLineEnding());
             if (strpos($line, '^') === 0) {
                 return $row;
             }
@@ -71,7 +86,7 @@ class Qif implements StreamInterface
         foreach ($data->all() as $item) {
             fwrite($this->handle, $this->adapter->toStream($item));
         }
-        fwrite($this->handle, '^' . "\r\n");
+        fwrite($this->handle, $this->options->getRowEnding() . $this->options->getLineEnding());
 
         return true;
     }

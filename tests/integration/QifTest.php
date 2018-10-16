@@ -2,6 +2,7 @@
 
 namespace IceproductionzTest\Integration\Stream\Qif;
 
+use Iceproductionz\StreamQif\Adapter\AdapterInterface;
 use Iceproductionz\StreamQif\Adapter\Investment;
 use Iceproductionz\StreamQif\Qif;
 use Iceproductionz\StreamQif\Row\Data\Investment\AccountForTransfer;
@@ -29,33 +30,31 @@ class QifTest extends TestCase
     {
         parent::setUp();
 
-        $this->adapter = new Investment();
+        $this->adapter = $this->createMock(AdapterInterface::class);
         $this->handle = tmpfile();
     }
 
     /**
      * Test Construction
-     *
-     * @return Qif
      */
-    public function testConstruction(): Qif
+    public function testConstruction(): void
     {
         $sut = new Qif($this->handle, $this->adapter);
 
         $this->assertInstanceOf(Qif::class, $sut);
-
-        return $sut;
     }
 
     /**
      * @dataProvider provideData
      *
-     * @param $rows
+     * @param AdapterInterface $adapter
+     * @param array            $rows
      */
-    public function testReadAndWrite($rows): void
+    public function testReadAndWrite($adapter, $rows): void
     {
+        $sut = new Qif(tmpfile(), new $adapter);
+
         $data = new Row($rows);
-        $sut = $this->testConstruction();
 
         $sut->write($data);
         $sut->rewind();
@@ -71,8 +70,9 @@ class QifTest extends TestCase
     public function provideData(): array
     {
         return [
-            [
-                [
+            'investment adapter' => [
+                Investment::class,
+               [
                     new AccountForTransfer('AFT'),
                     new Action('Action'),
                     new AmountTransferred('AmountTransferred'),
@@ -85,7 +85,13 @@ class QifTest extends TestCase
                     new Quantity('Quantity'),
                     new Security('Security'),
                     new TransactionAmount('TransactionAmount')
-                ]
+                ],
+            ],
+            'memorized adapter' => [
+
+            ],
+            'normal adapter' => [
+
             ]
         ];
     }
